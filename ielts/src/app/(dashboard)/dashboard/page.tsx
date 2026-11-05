@@ -71,13 +71,13 @@ export default async function DashboardPage() {
               Xush kelibsiz, {user?.name || "O'quvchi"}!
             </h2>
             <p className="mt-2 text-indigo-100 text-sm leading-relaxed">
-              Bugungi mashg'ulotlarni boshlashga tayyormisiz? Imtihon ko'nikmalarini AI yordamida baholang va xatolaringiz ustida ishlang.
+              Bugungi mashg&apos;ulotlarni boshlashga tayyormisiz? Imtihon ko&apos;nikmalarini AI yordamida baholang va xatolaringiz ustida ishlang.
             </p>
           </div>
         </div>
 
         {/* 4 ta IELTS bo'limi */}
-        <h3 className="mb-4 text-xl font-bold text-zinc-900">IELTS Bo'limlari</h3>
+        <h3 className="mb-4 text-xl font-bold text-zinc-900">IELTS Bo&apos;limlari</h3>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {/* Reading */}
           <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
@@ -108,7 +108,7 @@ export default async function DashboardPage() {
             <div className="text-3xl mb-3">✍️</div>
             <h4 className="text-lg font-bold text-zinc-900">Writing (AI)</h4>
             <p className="mt-1 text-sm text-zinc-500">
-              Task 1 va 2 insholarini 4 mezon bo'yicha AI bilan tekshirish.
+              Task 1 va 2 insholarini 4 mezon bo&apos;yicha AI bilan tekshirish.
             </p>
             <div className="mt-6">
 				<Link href="/writing">

@@ -8,10 +8,7 @@ export default async function WritingPage() {
   const session = await getSession();
   if (!session) redirect("/login");
 
-  const userId =
-    (session as { userId?: string }).userId ||
-    (session as { user?: { id?: string } }).user?.id ||
-    (session as { id?: string }).id;
+  const userId = session.userId;
 
   // 1. Yangi Writing mavzulari
   const writingPrompts = await prisma.writingPrompt.findMany({
@@ -23,7 +20,7 @@ export default async function WritingPage() {
   // 2. Foydalanuvchining oldingi topshirgan insholari tarixi
   const pastAssessments = userId
     ? await prisma.assessment.findMany({
-        where: { userId, skill: "WRITING" },
+        where: { userId, skill: "WRITING", aiModel: { not: "fallback-evaluator" } },
         include: {
           examSession: {
             include: { mockExam: true },
@@ -46,7 +43,7 @@ export default async function WritingPage() {
             ← Dashboardga qaytish
           </Link>
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            IELTS Writing Mashg'ulotlari
+            IELTS Writing Mashg&apos;ulotlari
           </h1>
           <p className="mt-1 text-sm text-zinc-500">
             Mavzuni tanlang, insho yozing va AI orqali tezkor tahlil hamda ball oling.
@@ -57,6 +54,7 @@ export default async function WritingPage() {
         <h2 className="mb-4 text-lg font-bold text-zinc-900 dark:text-zinc-200">
           Mavjud Imtihon Vazifalari
         </h2>
+        {writingPrompts.length === 0 && <p className="mb-6 text-zinc-500">Hozircha mashg‘ulot mavzulari yo‘q.</p>}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {writingPrompts.map((prompt) => (
             <div
@@ -120,14 +118,14 @@ export default async function WritingPage() {
                         {item.examSession?.mockExam?.title || "Academic Writing Insho"}
                       </h4>
                       <p className="text-xs text-zinc-400">
-                        Topshirildi: {new Date(item.createdAt).toLocaleDateString("uz-UZ")} • AI: {item.aiModel}
+                        Topshirildi: {new Date(item.createdAt).toLocaleDateString("uz-UZ", { timeZone: "Asia/Tashkent" })}
                       </p>
                     </div>
                   </div>
 
                   <Link href={`/writing/review/${item.id}`}>
                     <Button variant="outline" size="sm">
-                      Tahlilni ko'rish
+                      Tahlilni ko&apos;rish
                     </Button>
                   </Link>
                 </div>

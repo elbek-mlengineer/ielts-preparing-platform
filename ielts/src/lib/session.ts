@@ -1,8 +1,11 @@
 import { SignJWT, jwtVerify } from "jose"
 import { cookies } from "next/headers"
 
-const secretKey = process.env.AUTH_SECRET || "super-secret-default-key-ielts-prep-2026";
-const encodedKey = new TextEncoder().encode(secretKey);
+function sessionKey() {
+  const secret = process.env.AUTH_SECRET;
+  if (!secret || secret.length < 32) throw new Error("AUTH_SECRET must contain at least 32 characters");
+  return new TextEncoder().encode(secret);
+}
 
 export interface SessionPayload {
   userId: string;
@@ -15,15 +18,17 @@ export async function encrypt(payload: SessionPayload) {
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("7d")
-    .sign(encodedKey);
+    .sign(sessionKey());
 }
 
 export async function decrypt(session: string | undefined = "") {
   try {
-    const { payload } = await jwtVerify(session, encodedKey, {
+    const { payload } = await jwtVerify(session, sessionKey(), {
       algorithms: ["HS256"],
     });
-    return payload as unknown as SessionPayload;
+    if (typeof payload.userId !== "string" || !payload.userId ||
+        typeof payload.email !== "string" || typeof payload.role !== "string") return null;
+    return { userId: payload.userId, email: payload.email, role: payload.role };
   } catch {
     return null;
   }

@@ -96,9 +96,9 @@ export default function LoginPage() {
         </form>
 
         <p className="text-center text-sm text-zinc-500">
-          Hisobingiz yo'qmi?{" "}
+          Hisobingiz yo&apos;qmi?{" "}
           <Link href="/register" className="font-medium text-indigo-600 hover:underline">
-            Ro'yxatdan o'tish
+            Ro&apos;yxatdan o&apos;tish
           </Link>
         </p>
       </div>
